@@ -22,9 +22,7 @@ import {
 
 import {
   Colors,
-  DebugInstructions,
   Header,
-  LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
@@ -33,10 +31,9 @@ type SectionProps = PropsWithChildren<{
 }>;
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+
+  const theme = useColorScheme();
+  const isDarkTheme = theme === 'dark';
 
   const [lat1, setLat1] = React.useState("")
   const [lat2, setLat2] = React.useState("")
@@ -55,9 +52,7 @@ function App(): JSX.Element {
       Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
-    return setResult(d as any);
-    console.log(result)
-    console.log(d)
+    return setResult(d as any)
   }
 
   // Converts numeric degrees to radians
@@ -65,46 +60,49 @@ function App(): JSX.Element {
     return Value * Math.PI / 180;
   }
   return (
-    <View>
-      {/* <SafeAreaView style={backgroundStyle}> */}
-      <StatusBar
-      // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      // backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-      // contentInsetAdjustmentBehavior="automatic"
-      // style={backgroundStyle}
-      >
-        <Header />
+    <View style={styles.pageContainer}>
+      <ScrollView style={styles.innerContainer}>
         <View
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-        // style={{
-        //   backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        // }}
+          style={styles.container}
         >
+          <Text style={styles.marginHeader}>Pole 1:</Text>
+          <View style={styles.textContainer}>
+            <TextInput
+              style={styles.inputMargins}
+              placeholder="Latitude"
+              onChange={(event: any) => setLat1(event.target.value)}
+            />
+            <TextInput
+              style={styles.inputMargins}
+              placeholder="longitude"
+              onChange={(event: any) => setLon1(event.target.value)}
 
+            ></TextInput>
+          </View>
+          <Text style={styles.marginHeader}>Pole 2:</Text>
+          <View style={styles.textContainer}>
+            <TextInput
+              style={styles.inputMargins}
+              placeholder="Latitude"
+              onChange={(event: any) => setLat2(event.target.value)}
 
-          <TextInput
-          placeholder="lat1"
-          onChange={(event: any) => setLat1(event.target.value)}
-          />
-          <TextInput
-          placeholder="lat2"
-          onChange={(event: any) => setLat2(event.target.value)}
+            ></TextInput>
+            <TextInput
+              style={styles.inputMargins}
 
-          ></TextInput>
-          <TextInput
-          placeholder="lon1"
-          onChange={(event: any) => setLon1(event.target.value)}
-
-          ></TextInput>
-          <TextInput
-          placeholder="lon2"
-          onChange={(event: any) => setLon2(event.target.value)}
-          ></TextInput>
-          <Button title="calculate" onPress={() => calcCrow}></Button>
-          <Text>{result}</Text>
-
+              placeholder="Longitude"
+              onChange={(event: any) => setLon2(event.target.value)}
+            ></TextInput>
+          </View>
+          <View style={styles.button}>
+            <Button color='black' title="calculate" onPress={() => calcCrow}></Button>
+          </View>
+          <View style={{ flex: 1, justifyContent: 'space-between' }}>
+            <Text>Length: </Text>
+            <Text>{result}</Text>
+          </View>
+          <Text>{lat1}</Text>
+          <Text>{lat2}</Text>
         </View>
       </ScrollView>
     </View>
@@ -112,22 +110,50 @@ function App(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  pageContainer: {
+    borderWidth: 1,
+    flex: 1,
+    borderColor: 'black',
+    borderRadius: 50,
+    borderStyle: 'solid'
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  innerContainer: {
+    // flex: 1,
+    paddingTop: 50,
+    margin: 1,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 50,
+    borderStyle: 'solid'
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  container: {
+    flex: 1,
+    padding: 50,
+    justifyContent: 'space-between',
+    textAlign: 'left'
   },
-  highlight: {
-    fontWeight: '700',
+  textContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   },
+  button: {
+    marginVertical: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 60,
+    fontColor: '#000',
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10,
+    borderStyle: 'solid'
+  },
+  marginHeader: {
+    margin: 20,
+  },
+  inputMargins: {
+    marginBottom: 10,
+    paddingRight: 20,
+  }
 });
 
 export default App;
