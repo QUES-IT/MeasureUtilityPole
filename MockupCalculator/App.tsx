@@ -5,14 +5,17 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useState } from 'react';
+import type { PropsWithChildren } from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
+  Switch,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -29,70 +32,82 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [lat1, setLat1] = React.useState("")
+  const [lat2, setLat2] = React.useState("")
+  const [lon1, setLon1] = React.useState("")
+  const [lon2, setLon2] = React.useState("")
+  const [result, setResult] = React.useState("")
+
+  function calcCrow(lat1: any, lon1: any, lat2: any, lon2: any) {
+    var R = 6371; // km
+    var dLat: any = toRad(lat2 - lat1);
+    var dLon: any = toRad(lon2 - lon1);
+    var lat1: any = toRad(lat1);
+    var lat2: any = toRad(lat2);
+
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return setResult(d as any);
+    console.log(result)
+    console.log(d)
+  }
+
+  // Converts numeric degrees to radians
+  function toRad(Value: any) {
+    return Value * Math.PI / 180;
+  }
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <View>
+      {/* <SafeAreaView style={backgroundStyle}> */}
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+      // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+      // backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+      // contentInsetAdjustmentBehavior="automatic"
+      // style={backgroundStyle}
+      >
         <Header />
         <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+        // style={{
+        //   backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        // }}
+        >
+
+
+          <TextInput
+          placeholder="lat1"
+          onChange={(event: any) => setLat1(event.target.value)}
+          />
+          <TextInput
+          placeholder="lat2"
+          onChange={(event: any) => setLat2(event.target.value)}
+
+          ></TextInput>
+          <TextInput
+          placeholder="lon1"
+          onChange={(event: any) => setLon1(event.target.value)}
+
+          ></TextInput>
+          <TextInput
+          placeholder="lon2"
+          onChange={(event: any) => setLon2(event.target.value)}
+          ></TextInput>
+          <Button title="calculate" onPress={() => calcCrow}></Button>
+          <Text>{result}</Text>
+
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
