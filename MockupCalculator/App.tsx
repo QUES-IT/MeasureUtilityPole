@@ -6,29 +6,15 @@
  */
 
 import React, { useState } from 'react';
-import type { PropsWithChildren } from 'react';
 import {
   Button,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
-  Switch,
   Text,
   TextInput,
   useColorScheme,
   View,
 } from 'react-native';
-
-import {
-  Colors,
-  Header,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
 function App(): JSX.Element {
 
@@ -74,7 +60,7 @@ function App(): JSX.Element {
             />
             <TextInput
               style={styles.inputMargins}
-              placeholder="longitude"
+              placeholder="Longitude"
               onChange={(event: any) => setLon1(event.target.value)}
 
             ></TextInput>
@@ -97,12 +83,10 @@ function App(): JSX.Element {
           <View style={styles.button}>
             <Button color='black' title="calculate" onPress={() => calcCrow}></Button>
           </View>
-          <View style={{ flex: 1, justifyContent: 'space-between' }}>
+          <View style={styles.resultsContainer}>
             <Text>Length: </Text>
             <Text>{result}</Text>
           </View>
-          <Text>{lat1}</Text>
-          <Text>{lat2}</Text>
         </View>
       </ScrollView>
     </View>
@@ -118,7 +102,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid'
   },
   innerContainer: {
-    // flex: 1,
     paddingTop: 50,
     margin: 1,
     borderWidth: 1,
@@ -153,6 +136,10 @@ const styles = StyleSheet.create({
   inputMargins: {
     marginBottom: 10,
     paddingRight: 20,
+  },
+  resultsContainer: {
+    flex: 1,
+    justifyContent: 'space-between'
   }
 });
 
