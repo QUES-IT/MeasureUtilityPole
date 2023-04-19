@@ -39,6 +39,7 @@ function App(): JSX.Element {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     return setResult(d as any)
+    
   }
 
   // Converts numeric degrees to radians
@@ -56,12 +57,12 @@ function App(): JSX.Element {
             <TextInput
               style={styles.inputMargins}
               placeholder="Latitude"
-              onChange={(event: any) => setLat1(event.target.value)}
+              onChangeText={(value: string) => setLat1(value)}
             />
             <TextInput
               style={styles.inputMargins}
               placeholder="Longitude"
-              onChange={(event: any) => setLon1(event.target.value)}
+              onChangeText={(value: string) => setLon1(value)}
 
             ></TextInput>
           </View>
@@ -70,18 +71,18 @@ function App(): JSX.Element {
             <TextInput
               style={styles.inputMargins}
               placeholder="Latitude"
-              onChange={(event: any) => setLat2(event.target.value)}
+              onChangeText={(value: string) => setLat2(value)}
 
             ></TextInput>
             <TextInput
               style={styles.inputMargins}
 
               placeholder="Longitude"
-              onChange={(event: any) => setLon2(event.target.value)}
+              onChangeText={(value: string) => setLon2(value)}
             ></TextInput>
           </View>
           <View style={styles.button}>
-            <Button color='black' title="calculate" onPress={() => calcCrow}></Button>
+            <Button color='black' title="calculate" onPress={() => calcCrow(lat1, lon1, lat2, lon2)}></Button>
           </View>
           <View style={styles.resultsContainer}>
             <Text>Length: </Text>
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     marginVertical: 50,
     paddingVertical: 5,
     paddingHorizontal: 60,
-    fontColor: '#000',
+    // color: '#000',
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 10,
